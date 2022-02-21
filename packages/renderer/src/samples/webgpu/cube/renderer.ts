@@ -1,6 +1,6 @@
 // @ts-nocheck
-import vertShaderCode from './samples/triangle.vert.wgsl'
-import fragShaderCode from './samples/triangle.frag.wgsl'
+import vertShaderCode from './triangle.vert.wgsl'
+import fragShaderCode from './triangle.frag.wgsl'
 
 // 📈 Position Vertex Buffer Data
 const positions = new Float32Array([
