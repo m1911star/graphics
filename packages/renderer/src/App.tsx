@@ -1,5 +1,5 @@
-import styles from '@/styles/app.module.scss'
-import 'tailwindcss/tailwind.css'
+import styles from '@/styles/app.module.scss';
+import 'tailwindcss/tailwind.css';
 import { default as GPUCube } from '@/samples/webgpu/cube';
 import { default as GLCube } from '@/samples/webgl/cube';
 
@@ -10,6 +10,6 @@ const App = () => {
       <GLCube />
     </div>
   );
-}
+};
 
-export default App
+export default App;

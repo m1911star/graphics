@@ -1,10 +1,10 @@
-import { join } from 'path'
-import { builtinModules } from 'module'
-import { defineConfig, Plugin } from 'vite'
-import react from '@vitejs/plugin-react'
-import resolve from 'vite-plugin-resolve'
-import pkg from '../../package.json'
-import vitePluginString from 'vite-plugin-string'
+import { join } from 'path';
+import { builtinModules } from 'module';
+import { defineConfig, Plugin } from 'vite';
+import react from '@vitejs/plugin-react';
+import resolve from 'vite-plugin-resolve';
+import pkg from '../../package.json';
+import vitePluginString from 'vite-plugin-string';
 /**
  * @see https://vitejs.dev/config/
  */
@@ -13,18 +13,17 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     react(),
-    resolveElectron(
-      /**
-       * Here you can specify other modules
-       * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
-       *    which will ensure that the electron-builder can package it correctly
-       * @example
-       * {
-       *   'electron-store': 'const Store = require("electron-store"); export default Store;',
-       * }
-       */
-    ),
-    vitePluginString()
+    resolveElectron(),
+    /**
+     * Here you can specify other modules
+     * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
+     *    which will ensure that the electron-builder can package it correctly
+     * @example
+     * {
+     *   'electron-store': 'const Store = require("electron-store"); export default Store;',
+     * }
+     */
+    vitePluginString(),
   ],
   base: './',
   build: {
@@ -39,16 +38,16 @@ export default defineConfig({
   server: {
     port: pkg.env.PORT,
   },
-})
+});
 
 /**
  * For usage of Electron and NodeJS APIs in the Renderer process
  * @see https://github.com/caoxiemeihao/electron-vue-vite/issues/52
  */
- export function resolveElectron(
-  resolves: Parameters<typeof resolve>[0] = {}
+export function resolveElectron(
+  resolves: Parameters<typeof resolve>[0] = {},
 ): Plugin {
-  const builtins = builtinModules.filter((t) => !t.startsWith('_'))
+  const builtins = builtinModules.filter((t) => !t.startsWith('_'));
 
   /**
    * @see https://github.com/caoxiemeihao/vite-plugins/tree/main/packages/resolve#readme
@@ -57,7 +56,7 @@ export default defineConfig({
     electron: electronExport(),
     ...builtinModulesExport(builtins),
     ...resolves,
-  })
+  });
 
   function electronExport() {
     return `
@@ -89,29 +88,29 @@ export {
   desktopCapturer,
   deprecate,
 }
-`
+`;
   }
 
   function builtinModulesExport(modules: string[]) {
     return modules
       .map((moduleId) => {
-        const nodeModule = require(moduleId)
-        const requireModule = `const M = require("${moduleId}");`
-        const exportDefault = `export default M;`
+        const nodeModule = require(moduleId);
+        const requireModule = `const M = require("${moduleId}");`;
+        const exportDefault = `export default M;`;
         const exportMembers =
           Object.keys(nodeModule)
             .map((attr) => `export const ${attr} = M.${attr}`)
-            .join(';\n') + ';'
+            .join(';\n') + ';';
         const nodeModuleCode = `
 ${requireModule}
 
 ${exportDefault}
 
 ${exportMembers}
-`
+`;
 
-        return { [moduleId]: nodeModuleCode }
+        return { [moduleId]: nodeModuleCode };
       })
-      .reduce((memo, item) => Object.assign(memo, item), {})
+      .reduce((memo, item) => Object.assign(memo, item), {});
   }
 }
