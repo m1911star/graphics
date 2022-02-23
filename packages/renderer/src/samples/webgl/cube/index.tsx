@@ -1,7 +1,7 @@
-// @ts-nocheck
 import React from 'react';
-import vs from './cube.vert';
-import fs from './cube.frag';
+import vertCode from './cube.vert';
+import fragCode from './cube.frag';
+import { getProjection, rotateX, rotateY, rotateZ } from '@/utils/matrix';
 
 export default () => {
   const init = () => {
@@ -10,72 +10,96 @@ export default () => {
     if (!gl) {
       return;
     }
+    const vertices = [
+      -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1,
+      -1, 1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1,
+      1, 1, 1, 1, -1, 1, -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1,
+      -1, 1, 1, 1, 1, 1, 1, 1, -1,
+    ];
 
-    if (!initShaders(gl, vs, fs)) {
-      console.log('Failed to initialize shaders.');
-      return;
-    }
+    const colors = [
+      5, 3, 7, 5, 3, 7, 5, 3, 7, 5, 3, 7, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3, 0,
+      0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1,
+      0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+    ];
 
-    const n = initVertexBuffers(gl);
-    if (n < 0) {
-      console.log('Failed to set the positions of the vertices');
-      return;
-    }
+    const indices = [
+      0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12,
+      14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23,
+    ];
+    const vert_buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vert_buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    const color_buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+    const index_buf = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buf);
+    gl.bufferData(
+      gl.ELEMENT_ARRAY_BUFFER,
+      new Uint16Array(indices),
+      gl.STATIC_DRAW,
+    );
 
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLES, 0, n);
+    const vertShader = gl.createShader(gl.VERTEX_SHADER)!;
+    gl.shaderSource(vertShader!, vertCode);
+    gl.compileShader(vertShader!);
+    const fragShader = gl.createShader(gl.FRAGMENT_SHADER)!;
+    gl.shaderSource(fragShader, fragCode);
+    gl.compileShader(fragShader);
+    const shaderProgram = gl.createProgram()!;
+    gl.attachShader(shaderProgram, vertShader);
+    gl.attachShader(shaderProgram, fragShader);
+    gl.linkProgram(shaderProgram);
+    const pMatrix = gl.getUniformLocation(shaderProgram, 'Pmatrix')!;
+    const vMatrix = gl.getUniformLocation(shaderProgram, 'Vmatrix')!;
+    const mMatrix = gl.getUniformLocation(shaderProgram, 'Mmatrix')!;
+    gl.bindBuffer(gl.ARRAY_BUFFER, vert_buf);
+    const position = gl.getAttribLocation(shaderProgram, 'position')!;
+    gl.vertexAttribPointer(position, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(position);
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buf);
+    const color = gl.getAttribLocation(shaderProgram, 'color')!;
+    gl.vertexAttribPointer(color, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(color);
+    gl.useProgram(shaderProgram);
+
+    const projectionMat = getProjection(
+      40,
+      canvas.width / canvas.height,
+      1,
+      100,
+    );
+    const movMat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+    const viewMat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+    viewMat[14] = viewMat[14] - 6;
+
+    const animate = function (time: number) {
+      rotateZ(movMat, 0.05); //time
+      rotateY(movMat, 0.0);
+      rotateX(movMat, 0.05);
+      // time_old = time;
+
+      gl.enable(gl.DEPTH_TEST);
+      // gl.depthFunc(gl.LEQUAL);
+      gl.clearColor(0.5, 0.5, 0.8, 0.9);
+      gl.clearDepth(2.0);
+
+      gl.viewport(0.0, 0.0, canvas.width, canvas.height);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.uniformMatrix4fv(pMatrix, false, projectionMat);
+      gl.uniformMatrix4fv(vMatrix, false, viewMat);
+      gl.uniformMatrix4fv(mMatrix, false, movMat);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buf);
+      gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+
+      window.requestAnimationFrame(animate);
+    };
+    animate(0);
   };
-  const initVertexBuffers = (gl) => {
-    const dim = 3;
-    const vertices = new Float32Array([0, 0.5, 0, -0.5, -0.5, 0, 0.5, -0.5, 0]);
-    const vertexBuffer = gl.createBuffer();
-    if (!vertexBuffer) {
-      return -1;
-    }
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+  React.useEffect(init, []);
 
-    const aPos = gl.getAttribLocation(gl.program, 'a_Position');
-    if (aPos < 0) {
-      return -1;
-    }
-
-    gl.vertexAttribPointer(aPos, dim, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(aPos);
-    return vertices.length / dim;
-  };
-  const initShaders = (gl, vs_source, fs_source) => {
-    const vertexShader = makeShader(gl, vs_source, gl.VERTEX_SHADER);
-    const fragmentShader = makeShader(gl, fs_source, gl.FRAGMENT_SHADER);
-    const glProgram = gl.createProgram();
-    gl.attachShader(glProgram, vertexShader);
-    gl.attachShader(glProgram, fragmentShader);
-    gl.linkProgram(glProgram);
-
-    if (!gl.getProgramParameter(glProgram, gl.LINK_STATUS)) {
-      console.log(gl.getProgramInfoLog(glProgram));
-      return false;
-    }
-
-    gl.useProgram(glProgram);
-    gl.program = glProgram;
-    return true;
-  };
-  const makeShader = (gl, src, type) => {
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, src);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      alert(gl.getShaderInfoLog(shader));
-      return null;
-    }
-    return shader;
-  };
-  React.useEffect(() => {
-    init();
-  }, [init]);
   return (
     <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
       <canvas

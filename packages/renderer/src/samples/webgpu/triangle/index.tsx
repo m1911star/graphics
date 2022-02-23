@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
-import Renderer from '@/samples/webgpu/cube/renderer';
+import Renderer from '@/samples/webgpu/triangle/renderer';
 
 export default () => {
   useEffect(() => {
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById(
+      'webgpu-triangle',
+    ) as HTMLCanvasElement;
     const renderer = new Renderer(canvas);
     renderer.start().then(() => {});
   }, []);
@@ -13,7 +15,7 @@ export default () => {
         className="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto"
         width={640}
         height={640}
-        id="canvas"
+        id="webgpu-triangle"
       />
       <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
