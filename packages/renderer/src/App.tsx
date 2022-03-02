@@ -1,6 +1,7 @@
 import styles from '@/styles/app.module.scss';
 import 'tailwindcss/tailwind.css';
 import { default as GPUTriangle } from '@/samples/webgpu/triangle';
+import { default as GPUCube } from '@/samples/webgpu/cube';
 import { default as GLTriangle } from '@/samples/webgl/triangle';
 import { default as GLCube } from '@/samples/webgl/cube';
 import Wrapper from '@/wrapper';
@@ -12,10 +13,13 @@ const App = () => {
         <GLCube />
       </Wrapper>
       <Wrapper>
-        <GPUTriangle />
+        <GPUCube />
       </Wrapper>
       <Wrapper>
         <GLTriangle />
+      </Wrapper>
+      <Wrapper>
+        <GPUTriangle />
       </Wrapper>
     </div>
   );
