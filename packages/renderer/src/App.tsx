@@ -3,13 +3,20 @@ import 'tailwindcss/tailwind.css';
 import { default as GPUTriangle } from '@/samples/webgpu/triangle';
 import { default as GLTriangle } from '@/samples/webgl/triangle';
 import { default as GLCube } from '@/samples/webgl/cube';
+import Wrapper from '@/wrapper';
 
 const App = () => {
   return (
     <div className={styles.app}>
-      <GPUTriangle />
-      <GLTriangle />
-      <GLCube />
+      <Wrapper>
+        <GLCube />
+      </Wrapper>
+      <Wrapper>
+        <GPUTriangle />
+      </Wrapper>
+      <Wrapper>
+        <GLTriangle />
+      </Wrapper>
     </div>
   );
 };
