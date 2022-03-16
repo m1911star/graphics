@@ -1,4 +1,4 @@
-import { vec2, vec3, mat4 } from 'gl-matrix';
+import { vec3, mat4 } from 'gl-matrix';
 
 export const CreateAnimation = (
   draw: any,
@@ -120,6 +120,7 @@ export const InitGPU = async () => {
   }
   const canvas = document.getElementById('webgpu-cube') as HTMLCanvasElement;
   const adapter = await navigator.gpu?.requestAdapter();
+  console.log(adapter, 'adapter');
   const device = (await adapter?.requestDevice()) as GPUDevice;
   const context = canvas.getContext('webgpu') as unknown as GPUCanvasContext;
 
@@ -149,17 +150,5 @@ export const CheckWebGPU = () => {
                     Implementation Status</a> page for more details.
                 `;
   }
-
-  const canvas = document.getElementById('canvas-webgpu') as HTMLCanvasElement;
-  // const div = document.getElementsByClassName('item2')[0] as HTMLDivElement;
-  // canvas.width = div.offsetWidth;
-  // canvas.height = div.offsetHeight;
-
-  // function windowResize() {
-  //   canvas.width = div.offsetWidth;
-  //   canvas.height = div.offsetHeight;
-  // }
-  // window.addEventListener('resize', windowResize);
-
   return result;
 };

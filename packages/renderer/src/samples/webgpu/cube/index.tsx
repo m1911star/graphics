@@ -4,7 +4,7 @@ import {
   CreateTransforms,
   CreateViewProjection,
   CreateAnimation,
-} from '../../../utils/helper';
+} from '@/utils/helper';
 import { Shaders } from '@/samples/webgpu/cube/shaders';
 import { CubeData } from '@/samples/webgpu/cube/vertex';
 
@@ -165,8 +165,8 @@ export default () => {
   return (
     <canvas
       className="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto"
-      width={384}
-      height={424}
+      width={144}
+      height={144}
       id="webgpu-cube"
     />
   );
