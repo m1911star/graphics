@@ -9,7 +9,7 @@ import { Shaders } from '@/samples/webgpu/cube/shaders';
 import { CubeData } from '@/samples/webgpu/cube/vertex';
 
 import { mat4, vec3 } from 'gl-matrix';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 // import createCamera from '3d-view-controls';
 
 const init = async () => {
@@ -159,7 +159,7 @@ const init = async () => {
 };
 
 export default () => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     init();
   }, []);
   return (

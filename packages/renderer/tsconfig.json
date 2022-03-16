@@ -15,7 +15,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": [
+      "./node_modules/@webgpu/types",
+      "./node_modules/@types",
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "../../node_modules/@webgpu/types/dist/index.d.ts"
+  ]
 }

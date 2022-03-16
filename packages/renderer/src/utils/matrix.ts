@@ -25,7 +25,7 @@ export const getProjection = (
   ];
 };
 
-export function rotateZ(m, angle: number) {
+export function rotateZ(m: number[], angle: number) {
   const c = Math.cos(angle);
   const s = Math.sin(angle);
   const mv0 = m[0],
@@ -41,7 +41,7 @@ export function rotateZ(m, angle: number) {
   m[9] = c * m[9] + s * mv8;
 }
 
-export function rotateX(m, angle) {
+export function rotateX(m: number[], angle: number) {
   var c = Math.cos(angle);
   var s = Math.sin(angle);
   var mv1 = m[1],
@@ -57,7 +57,7 @@ export function rotateX(m, angle) {
   m[10] = m[10] * c + mv9 * s;
 }
 
-export function rotateY(m, angle) {
+export function rotateY(m: number[], angle: number) {
   var c = Math.cos(angle);
   var s = Math.sin(angle);
   var mv0 = m[0],

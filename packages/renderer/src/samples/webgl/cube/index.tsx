@@ -1,5 +1,7 @@
 import React from 'react';
+// @ts-ignore
 import vertCode from './cube.vert';
+// @ts-ignore
 import fragCode from './cube.frag';
 import { getProjection, rotateX, rotateY, rotateZ } from '@/utils/matrix';
 
@@ -74,7 +76,7 @@ export default () => {
     const viewMat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
     viewMat[14] = viewMat[14] - 6;
 
-    const animate = function (time: number) {
+    const animate = function () {
       rotateZ(movMat, 0.05); //time
       rotateY(movMat, 0.0);
       rotateX(movMat, 0.05);
@@ -95,7 +97,7 @@ export default () => {
 
       window.requestAnimationFrame(animate);
     };
-    animate(0);
+    animate();
   };
 
   React.useEffect(init, []);
