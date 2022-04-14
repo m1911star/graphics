@@ -1,7 +1,10 @@
 module.exports = {
-  content: ['./packages/renderer/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './packages/renderer/**/*.{js,ts,jsx,tsx}',
+    './node_modules/tw-elements/dist/js/**/*.js',
+  ],
   theme: {
-    extend: {}
+    extend: {},
   },
-  plugins: []
-}
+  plugins: [require('tw-elements/dist/plugin')],
+};

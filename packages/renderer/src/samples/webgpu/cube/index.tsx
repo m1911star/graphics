@@ -129,13 +129,6 @@ const init = async () => {
   };
 
   const draw = () => {
-    // if (!isAnimation) {
-    //   if (camera.tick()) {
-    //     const pMatrix = vp.projectionMatrix;
-    //     vMatrix = camera.matrix;
-    //     mat4.multiply(vpMatrix, pMatrix, vMatrix);
-    //   }
-    // }
     CreateTransforms(modelMatrix, [0, 0, 0], rotation);
     mat4.multiply(mvpMatrix, vpMatrix, modelMatrix);
 
@@ -164,9 +157,13 @@ export default () => {
   }, []);
   return (
     <canvas
-      className="w-24 h-24 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto"
-      width={144}
-      height={144}
+      className="md:rounded-none rounded-full mx-auto"
+      style={{
+        width: '192px',
+        height: '192px'
+      }}
+      width={384}
+      height={384}
       id="webgpu-cube"
     />
   );
