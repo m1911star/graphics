@@ -16,6 +16,7 @@
     "node": ">=14.17.0"
   },
   "dependencies": {
+    "3d-view-controls": "^2.2.2",
     "electron-store": "^8.0.1",
     "gl-matrix": "^3.4.3",
     "tw-elements": "^1.0.0-alpha12"

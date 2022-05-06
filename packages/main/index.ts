@@ -21,6 +21,8 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: true,
       preload: join(__dirname, '../preload/index.cjs'),
     },
   });

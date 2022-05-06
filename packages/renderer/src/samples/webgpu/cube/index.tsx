@@ -13,7 +13,7 @@ import { useLayoutEffect } from 'react';
 // import createCamera from '3d-view-controls';
 
 const init = async () => {
-  const gpu = await InitGPU();
+  const gpu = await InitGPU('webgpu-cube');
   console.log(gpu);
   const device = gpu.device;
 

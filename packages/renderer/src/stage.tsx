@@ -4,6 +4,7 @@ import { default as GPUCube } from '@/samples/webgpu/cube';
 import { default as GLTriangle } from '@/samples/webgl/triangle';
 import { default as GLCube } from '@/samples/webgl/cube';
 import { default as GLSier } from '@/samples/webgl/sierpinski';
+import { default as GPUShaer } from '@/samples/webgpu/shader';
 
 const samples = [
   <GLCube />,
@@ -11,6 +12,7 @@ const samples = [
   <GPUCube />,
   <GLTriangle />,
   <GPUTriangle />,
+    <GPUShaer />,
 ];
 export const Stage = () => {
   return (

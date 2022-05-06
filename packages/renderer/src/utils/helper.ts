@@ -112,13 +112,13 @@ export const CreateGPUBuffer = (
   return buffer;
 };
 
-export const InitGPU = async () => {
+export const InitGPU = async (id: string) => {
   const checkgpu = CheckWebGPU();
   if (checkgpu.includes('Your current browser does not support WebGPU!')) {
     console.log(checkgpu);
     throw 'Your current browser does not support WebGPU!';
   }
-  const canvas = document.getElementById('webgpu-cube') as HTMLCanvasElement;
+  const canvas = document.getElementById(id) as HTMLCanvasElement;
   const adapter = await navigator.gpu?.requestAdapter();
   console.log(adapter, 'adapter');
   const device = (await adapter?.requestDevice()) as GPUDevice;
