@@ -9,7 +9,13 @@
       content="script-src 'self' 'unsafe-inline';"
     />
     <title>Long Live Graphics</title>
-    <script defer src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    <script>
+      /**
+       * this is a hack for dragula
+       * error: global is not defined
+       */
+      var global = global || window
+      </script>
   </head>
   <body>
     <div id="root"></div>

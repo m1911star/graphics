@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 import resolve from 'vite-plugin-resolve';
 import pkg from '../../package.json';
 import vitePluginString from 'vite-plugin-string';
+import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 /**
  * @see https://vitejs.dev/config/
  */
@@ -24,6 +25,7 @@ export default defineConfig({
      * }
      */
     vitePluginString(),
+    viteCommonjs()
   ],
   base: './',
   build: {
@@ -38,6 +40,16 @@ export default defineConfig({
   server: {
     port: pkg.env.PORT,
   },
+  optimizeDeps: {
+    esbuildOptions:{
+      plugins:[
+        esbuildCommonjs(['3d-view-controls','right-now']) 
+      ]
+    }
+  },
+  define: {
+    "global": {},
+  }
 });
 
 /**
