@@ -5,6 +5,7 @@ import { default as GLTriangle } from '@/samples/webgl/triangle';
 import { default as GLCube } from '@/samples/webgl/cube';
 import { default as GLSier } from '@/samples/webgl/sierpinski';
 import { default as GPUShaer } from '@/samples/webgpu/shader';
+import { default as GPUWireFrame } from '@/samples/webgpu/wireframe';
 
 const samples = [
   <GLCube />,
@@ -13,6 +14,7 @@ const samples = [
   <GLTriangle />,
   <GPUTriangle />,
   <GPUShaer />,
+  <GPUWireFrame />,
 ];
 export const Stage = () => {
   return (
