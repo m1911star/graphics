@@ -12,21 +12,27 @@ const samples = [
   <GPUCube />,
   <GLTriangle />,
   <GPUTriangle />,
-    <GPUShaer />,
+  <GPUShaer />,
 ];
 export const Stage = () => {
   return (
     <>
       {/* {samples.map(sample => <>{sample}</>)} */}
-      <ul role="list" className="m-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {samples.map((sample, index) => (
-        <li key={`index-${index}`} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-          <div className="w-full flex items-center justify-between p-6 space-x-6">
-            {sample}
-          </div>
-        </li>
-      ))}
-    </ul>
+      <ul
+        role="list"
+        className="m-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {samples.map((sample, index) => (
+          <li
+            key={`index-${index}`}
+            className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
+          >
+            <div className="w-full flex items-center flex-col justify-between p-6">
+              {sample}
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 };

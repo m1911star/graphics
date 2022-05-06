@@ -35,7 +35,13 @@ const baseColors = [
 ];
 const colors: any[] = [];
 
-const divideTetra = (a: number[], b:number[], c: number[], d: number[], count: number) => {
+const divideTetra = (
+  a: number[],
+  b: number[],
+  c: number[],
+  d: number[],
+  count: number,
+) => {
   if (count === 0) {
     tetra(a, b, c, d);
   } else {
@@ -51,17 +57,15 @@ const divideTetra = (a: number[], b:number[], c: number[], d: number[], count: n
     divideTetra(ac, bc, c, cd, count);
     divideTetra(ad, bd, cd, d, count);
   }
-}
+};
 
-const tetra = (a: number[], b:number[], c: number[], d: number[]) => {
+const tetra = (a: number[], b: number[], c: number[], d: number[]) => {
   triangle(a, c, b, 0);
   triangle(a, c, d, 1);
   triangle(a, b, d, 2);
   triangle(b, c, d, 3);
-}
-function triangle(a: number[], b: number[], c: number[], color: number)
-{
-
+};
+function triangle(a: number[], b: number[], c: number[], color: number) {
   colors.push(baseColors[Math.floor(Math.random() * 3)]);
   points.push(a);
   colors.push(baseColors[Math.floor(Math.random() * 3)]);
@@ -78,15 +82,21 @@ export default () => {
       return;
     }
     const vertices = [
-      [0,  0.0, -1.0],
+      [0, 0.0, -1.0],
       [0.0, 1.0, 0.3333],
-      [-0.8165, -0.4714,  0.3333],
-      [0.8165, -0.4714,  0.3333]
+      [-0.8165, -0.4714, 0.3333],
+      [0.8165, -0.4714, 0.3333],
     ];
     console.log(vertices, 'vertices');
     // divideTriangle(vertices[0], vertices[1], vertices[2], NumTimesToSubdivide);
-    divideTetra(vertices[0], vertices[1], vertices[2], vertices[3], NumTimesToSubdivide);
-    
+    divideTetra(
+      vertices[0],
+      vertices[1],
+      vertices[2],
+      vertices[3],
+      NumTimesToSubdivide,
+    );
+
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
@@ -110,7 +120,7 @@ export default () => {
     const vColor = gl.getAttribLocation(shaderProgram, 'vColor');
     gl.vertexAttribPointer(vColor, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vColor);
-  
+
     const vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
@@ -118,10 +128,10 @@ export default () => {
     const vPosition = gl.getAttribLocation(shaderProgram, 'vPosition');
     gl.vertexAttribPointer(vPosition, 3, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
-  
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     // gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.TRIANGLES, 0, points.length );
+    gl.drawArrays(gl.TRIANGLES, 0, points.length);
   }, []);
   return (
     <>
@@ -131,6 +141,11 @@ export default () => {
         width={1000}
         height={1000}
       />
+      <div className="flex space-x-2 justify-center py-3">
+        <span className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded">
+          Sierpinski
+        </span>
+      </div>
     </>
   );
 };

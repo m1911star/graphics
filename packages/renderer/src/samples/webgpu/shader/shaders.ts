@@ -1,5 +1,5 @@
 export const Shaders = () => {
-    const vertex = `
+  const vertex = `
         [[block]] struct Uniforms {
             mvpMatrix : mat4x4<f32>;
         };
@@ -15,15 +15,15 @@ export const Shaders = () => {
             output.vColor = color;
             return output;
         }`;
-    
-    const fragment = `
+
+  const fragment = `
         [[stage(fragment)]]
         fn main([[location(0)]] vColor: vec4<f32>) -> [[location(0)]] vec4<f32> {
             return vColor;
         }`;
-    
-    return {
-        vertex,
-        fragment
-    };
-}
+
+  return {
+    vertex,
+    fragment,
+  };
+};

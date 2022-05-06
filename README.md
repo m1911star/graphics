@@ -11,4 +11,4 @@
 - WebGL
 - WebGPU
 
-![gallery](./screenshots/gallery.png)
+![gallery](./screenshots/gallery1.png)
